@@ -1,5 +1,4 @@
-# syntax = devthefuture/dockerfile-x:v1.4.2
-ARG BASE_IMAGE=lcas.lincoln.ac.uk/lcas/ros:jammy-humble-cuda12.2-opengl-1.1
+ARG BASE_IMAGE=lcas.lincoln.ac.uk/lcas/ros:jammy-humble
 
 FROM ${BASE_IMAGE} AS base
 
@@ -41,11 +40,8 @@ RUN apt-get update && \
 # - INCLUDE .docker/magic_enum.dockerfile: Adds the Magic Enum library setup from the specified Dockerfile.
 # - INCLUDE .docker/uvc.dockerfile: Adds the UVC library setup from the specified Dockerfile.
 FROM base AS vendor_base
-INCLUDE .docker/ydlidar.dockerfile
 INCLUDE .docker/glog.dockerfile
 INCLUDE .docker/magic_enum.dockerfile
-INCLUDE .docker/uvc.dockerfile
-INCLUDE .docker/speaker.dockerfile
 
 # This stage is named 'sourcefilter' and is based on the 'base' image.
 # It performs the following actions:
