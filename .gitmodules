@@ -1,0 +1,4 @@
+[submodule "src/spot_ros2"]
+	path = src/spot_ros2
+	url = https://github.com/LCAS/spot_ros2
+	shallow = true
