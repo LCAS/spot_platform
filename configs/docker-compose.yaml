@@ -37,10 +37,11 @@ services:
     - ROS_DISTRO=humble
 
   spot_drivers:
-    image: lcas.lincoln.ac.uk/lcas/spot_platform:1
+    image: lcas.lincoln.ac.uk/lcas/spot_platform:main
     # build:
     #   context: ../
     #   dockerfile: Dockerfile
+    # platform: linux/amd64
     pull_policy: always
     user: "ros"
 
@@ -58,7 +59,7 @@ services:
     privileged: true
     ipc: host
     # command: bash -c "while true; do sleep 5; done" # launch in background
-    command: bash -c "echo $$CYCLONEDDS_URI; (code-server --auth none -an ${ROBOT_NAME} --bind-addr 0.0.0.0:9999 --cert &); ros2 launch spot_driver spot_driver.launch.py launch_rviz:=False"
+    command: bash -c "source /opt/ros/lcas/spot_ros2/setup.bash; echo $$CYCLONEDDS_URI; (code-server --auth none -an ${ROBOT_NAME} --bind-addr 0.0.0.0:9999 --cert &); ros2 launch spot_driver spot_driver.launch.py launch_rviz:=False spot_name:=${ROBOT_NAME} launch_image_publishers:=True publish_point_clouds:=True stitch_front_images:=True"
     volumes:
       - /dev:/dev
       - ${HOME}:/home/ros/robot_home
