@@ -13,11 +13,16 @@ on:
 jobs:
   build-docker-image:
     if: github.repository_owner == 'LCAS'
-    name: Build Docker Image (based on ${{ matrix.base_image }}, triggered by ${{ github.event_name }})
+    name: Build Docker Image (Triggered by ${{ github.event_name }})
     runs-on: 
       - lcas
     strategy:
       fail-fast: false
+      matrix:
+        include:          
+         - base_image: lcas.lincoln.ac.uk/lcas/ros:jammy-humble
+        # - base_image: nvidia/cuda:12.2.2-cudnn8-devel-ubuntu22.04
+        #  push_tag: jammy-cuda12.2
 
     steps:
     - name: Node Js

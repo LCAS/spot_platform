@@ -108,32 +108,30 @@ RUN cd /opt/ros/lcas; colcon build && \
 # configure the devcontainer without the sources in this repository (all dependencies ready to go)
 FROM depbuilder as devcontainer
 
-RUN echo "source /opt/ros/lcas/install/setup.bash" >> /etc/bash.bashrc
 COPY .docker/bash.alias /tmp/bash.alias
 RUN cat /tmp/bash.alias >> /etc/bash.bashrc
 
 # now also copy in all sources and build and install them
 FROM devcontainer as compiled
 
-COPY ./src /opt/ros/lcas/src/local-code/src
-RUN . /opt/ros/lcas/install/setup.sh && \
-    apt update && \
-    rosdep --rosdistro=${ROS_DISTRO} update && \
-    rosdep install --from-paths /opt/ros/lcas/src/local-code/src --ignore-src -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Copy your source code
+COPY ./src /opt/ros/lcas/local-src/
+WORKDIR /opt/ros/lcas/local-src/spot_ros2
+RUN bash install_spot_ros2.sh
+RUN colcon build
 
-RUN cd /opt/ros/lcas && colcon build && \
-    rm -rf /opt/ros/lcas/src/ /opt/ros/lcas/build/ /opt/ros/lcas/log/
-
+RUN mv install/ /opt/ros/lcas/spot_ros2
+RUN rm -rf /opt/ros/lcas/local-src/
+    
 # Install code-server
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 
-# # Install sounddevice in system Python
-# RUN pip3 install sounddevice
-# # Install sounddevice in virtual environment
-# RUN /opt/venv/bin/pip install sounddevice
-
 USER ros
+
+# Setup bash aliases
+RUN echo "source /opt/ros/lcas/install/setup.bash" >> ~/bash.bashrc # other lcas repos
+RUN echo "source /opt/ros/lcas/spot_ros2/setup.bash" >> ~/.bashrc # spot
+RUN echo "export PS1='\[\e[0;33m\]spot_platform ➜ \[\e[0;32m\]\u@\h\[\e[0;34m\]:\w\[\e[0;37m\]\$ '" >> ~/.bashrc
+
 WORKDIR /home/ros
 ENV SHELL=/bin/bash
