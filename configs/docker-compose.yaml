@@ -38,6 +38,9 @@ services:
 
   spot_drivers:
     image: lcas.lincoln.ac.uk/lcas/spot_platform:1
+    # build:
+    #   context: ../
+    #   dockerfile: Dockerfile
     pull_policy: always
     user: "ros"
 
@@ -54,9 +57,8 @@ services:
     # nned privileged mode to access the camera and hardware
     privileged: true
     ipc: host
-    #command: bash -c "while true; do sleep 10; done"
-    #command: bash -c "zenoh-bridge-ros2dds -r 8080 -l tcp/0.0.0.0:8888"
-    command: bash -c "source /opt/ros/lcas/install/setup.bash; echo $$CYCLONEDDS_URI; (code-server --auth none -an ${ROBOT_NAME} --bind-addr 0.0.0.0:9999 --cert &); ros2 launch spot_driver spot_driver.launch.py launch_rviz:=True"
+    # command: bash -c "while true; do sleep 5; done" # launch in background
+    command: bash -c "echo $$CYCLONEDDS_URI; (code-server --auth none -an ${ROBOT_NAME} --bind-addr 0.0.0.0:9999 --cert &); ros2 launch spot_driver spot_driver.launch.py launch_rviz:=False"
     volumes:
       - /dev:/dev
       - ${HOME}:/home/ros/robot_home
@@ -68,6 +70,8 @@ services:
       - DISPLAY:1
       # - 'LIBGL_ALWAYS_SOFTWARE=1'
       # - 'ROS_DOMAIN_ID=0'
+    env_file:
+      - ./.env
     networks:
       - rosnet
     cap_add:
