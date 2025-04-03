@@ -59,7 +59,7 @@ services:
     privileged: true
     ipc: host
     # command: bash -c "while true; do sleep 5; done" # launch in background
-    command: bash -c "source /opt/ros/lcas/spot_ros2/setup.bash; echo $$CYCLONEDDS_URI; (code-server --auth none -an ${ROBOT_NAME} --bind-addr 0.0.0.0:9999 --cert &); ros2 launch spot_driver spot_driver.launch.py launch_rviz:=False spot_name:=${ROBOT_NAME} launch_image_publishers:=True publish_point_clouds:=True stitch_front_images:=True"
+    command: bash -c "source /opt/ros/lcas/spot_ros2/setup.bash; echo $$CYCLONEDDS_URI; (code-server --auth none -an ${ROBOT_NAME} --bind-addr 0.0.0.0:9999 --cert &); ros2 launch spot_driver spot_driver.launch.py launch_rviz:=False launch_image_publishers:=True publish_point_clouds:=True stitch_front_images:=True"
     volumes:
       - /dev:/dev
       - ${HOME}:/home/ros/robot_home
