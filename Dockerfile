@@ -124,9 +124,9 @@ RUN colcon build
 RUN mv install/ /opt/ros/lcas/spot_ros2
 
 # Setup ublox
-WORKDIR /opt/ros/lcas/local-src/ublox
+WORKDIR /opt/ros/lcas/local-src/ros2-ublox-zedf9p
 RUN colcon build
-RUN mv install/ /opt/ros/lcas/ublox
+RUN mv install/ /opt/ros/lcas/ros2-ublox-zedf9p
 
 RUN rm -rf /opt/ros/lcas/local-src/
     
@@ -140,7 +140,7 @@ USER ros
 # Setup bash aliases
 RUN echo "source /opt/ros/lcas/install/setup.bash" >> ~/bash.bashrc # other lcas repos
 RUN echo "source /opt/ros/lcas/spot_ros2/setup.bash" >> ~/.bashrc # spot
-RUN echo "source /opt/ros/lcas/ublox/setup.bash" >> ~/.bashrc # ublox
+RUN echo "source /opt/ros/lcas/ros2-ublox-zedf9p/setup.bash" >> ~/.bashrc # ublox
 RUN echo "export PS1='\[\e[0;33m\]spot_platform ➜ \[\e[0;32m\]\u@\h\[\e[0;34m\]:\w\[\e[0;37m\]\$ '" >> ~/.bashrc
 
 WORKDIR /home/ros

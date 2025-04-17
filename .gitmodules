@@ -2,7 +2,8 @@
 	path = src/spot_ros2
 	url = https://github.com/LCAS/spot_ros2
 	shallow = true
-[submodule "src/ublox"]
-	path = src/ublox
-	url = https://github.com/KumarRobotics/ublox.git
-	branch = ros2
+[submodule "src/ros2-ublox-zedf9p"]
+	path = src/ros2-ublox-zedf9p
+	url = https://github.com/gokulp01/ros2-ublox-zedf9p.git
+	shallow = true
+
