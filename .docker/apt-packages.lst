@@ -62,6 +62,7 @@ ros-humble-rmw-cyclonedds-cpp
 ros-humble-robot-state-publisher* 
 ros-humble-rviz2*
 ros-humble-simulation
+ros-humble-slam-toolbox
 ros-humble-teleop-twist-joy
 ros-humble-teleop-twist-keyboard
 ros-humble-xacro
