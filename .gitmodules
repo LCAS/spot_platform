@@ -1,6 +1,6 @@
 [submodule "src/spot_ros2"]
 	path = src/spot_ros2
-	url = https://github.com/LCAS/spot_ros2
+	url = https://github.com/bdaiinstitute/spot_ros2
 	shallow = true
 [submodule "src/ros2-ublox-zedf9p"]
 	path = src/ros2-ublox-zedf9p
