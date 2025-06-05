@@ -137,6 +137,9 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh
 RUN usermod -aG dialout ros
 USER ros
 
+# Install https://github.com/semuconsulting/PyGPSClient
+RUN pip install --upgrade pygpsclient
+
 # Setup bash aliases
 RUN echo "source /opt/ros/lcas/install/setup.bash" >> ~/bash.bashrc # other lcas repos
 RUN echo "source /opt/ros/lcas/spot_ros2/setup.bash" >> ~/.bashrc # spot

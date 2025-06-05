@@ -2,7 +2,6 @@ name: spot_platform
 services:
   filebrowser:
     image: filebrowser/filebrowser
-    pull_policy: always
     networks:
       - rosnet
     ports:
@@ -10,10 +9,10 @@ services:
     volumes:
       - ${HOME}:/srv
     command: -r /srv --noauth -b "${HOME}" -d /tmp/database.db -p 8080 --disable-exec
+    restart: always
 
   zenoh_router: 
     image: eclipse/zenoh-bridge-ros2dds:latest
-    pull_policy: always
     networks:
       - rosnet
     # expose REST API, and Zenoh API
@@ -31,6 +30,7 @@ services:
       - ./zenoh.json5:/etc/zenoh/zenoh.json5:ro
     links:
       - spot_drivers
+    restart: always
 
     # need to set ROS_DISTRO to the correct version for the bridge to work correctly
     environment:
@@ -42,7 +42,6 @@ services:
     #   context: ../
     #   dockerfile: Dockerfile
     # platform: linux/amd64
-    pull_policy: always
     user: "ros"
 
     # expose desktop access
@@ -81,6 +80,7 @@ services:
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
+    restart: always
 
 networks:
   rosnet:

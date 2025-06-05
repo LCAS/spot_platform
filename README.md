@@ -1,7 +1,7 @@
 # A containerised, clean ROS2 workspace for the Boston Dynamics Spot Robot Dog
 
 > [!WARNING]  
-> This is still a work in-progress and should not be used!
+> This is still a work in-progress and should be expected to not fully function.
 
 ## Using the Docker image for the real robot
 
