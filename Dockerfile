@@ -20,6 +20,14 @@ RUN if [ "${TARGETARCH}" = "arm64" ]; then \
 # Copy the list of APT packages to be installed from the local directory to the container
 COPY .docker/apt-packages.lst /tmp/apt-packages.lst
 
+##!! BODGE!!
+##!! The GPG Key in the upstream image has expired and now makes it so this image cannot be built,
+##!! The below code will update the keys.
+##!! See: https://github.com/LCAS/docker_cuda_desktop/issues/8
+RUN add-apt-repository universe \
+  && curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
 # Update the package list, upgrade installed packages, install the packages listed in apt-packages.lst,
 # remove unnecessary packages, clean up the APT cache, and remove the package list to reduce image size
 RUN apt-get update && \
@@ -36,10 +44,8 @@ RUN apt-get update && \
 # necessary libraries and tools required.
 #
 # - FROM base AS vendor_base: Uses the 'base' image as the starting point and names this stage 'vendor_base'.
-# - INCLUDE .docker/ydlidar.dockerfile: Adds the YDLidar library setup from the specified Dockerfile.
 # - INCLUDE .docker/glog.dockerfile: Adds the Google Logging library setup from the specified Dockerfile.
 # - INCLUDE .docker/magic_enum.dockerfile: Adds the Magic Enum library setup from the specified Dockerfile.
-# - INCLUDE .docker/uvc.dockerfile: Adds the UVC library setup from the specified Dockerfile.
 FROM base AS vendor_base
 INCLUDE .docker/glog.dockerfile
 INCLUDE .docker/magic_enum.dockerfile

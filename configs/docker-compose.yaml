@@ -38,10 +38,10 @@ services:
 
   spot_drivers:
     image: lcas.lincoln.ac.uk/lcas/spot_platform:main
-    # build:
-    #   context: ../
-    #   dockerfile: Dockerfile
-    # platform: linux/amd64
+    #build:
+    #  context: ../
+    #  dockerfile: Dockerfile
+    platform: linux/amd64
     user: "ros"
 
     # expose desktop access
