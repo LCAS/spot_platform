@@ -1,5 +1,5 @@
 # syntax = devthefuture/dockerfile-x:v1.4.2
-ARG BASE_IMAGE=lcas.lincoln.ac.uk/lcas/ros:jammy-humble-cuda-opengl
+ARG BASE_IMAGE=lcas.lincoln.ac.uk/lcas/ros-docker-images:jammy-cuda12.2-humble-2
 
 FROM ${BASE_IMAGE} AS base
 
@@ -19,14 +19,6 @@ RUN if [ "${TARGETARCH}" = "arm64" ]; then \
 
 # Copy the list of APT packages to be installed from the local directory to the container
 COPY .docker/apt-packages.lst /tmp/apt-packages.lst
-
-##!! BODGE!!
-##!! The GPG Key in the upstream image has expired and now makes it so this image cannot be built,
-##!! The below code will update the keys.
-##!! See: https://github.com/LCAS/docker_cuda_desktop/issues/8
-RUN add-apt-repository universe \
-  && curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
-  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
 # Update the package list, upgrade installed packages, install the packages listed in apt-packages.lst,
 # remove unnecessary packages, clean up the APT cache, and remove the package list to reduce image size

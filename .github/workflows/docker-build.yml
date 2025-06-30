@@ -20,9 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         include:          
-         - base_image: lcas.lincoln.ac.uk/lcas/ros:jammy-humble
-        # - base_image: nvidia/cuda:12.2.2-cudnn8-devel-ubuntu22.04
-        #  push_tag: jammy-cuda12.2
+         - base_image: lcas.lincoln.ac.uk/lcas/ros-docker-images:jammy-cuda12.2-humble-2
 
     steps:
     - name: Node Js
